@@ -1,0 +1,8 @@
+bitcoin-utils
+numpy
+eth-keys
+eth-account
+eth-utils
+web3
+eth-tester
+py-evm
