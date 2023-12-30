@@ -22,21 +22,21 @@ contract committee{
         uint cash;
         mapping (uint => committeeman) map;
     }
-    //  向合约地址转账
+    //  Transfer money to contract address
     function pay() payable public{          
     }
-    // 获取合约地址余额
+    // Get the contract address balance
     function getBalance() view public returns(uint){
         return address(this).balance;
     }
     uint voteAmount;
     mapping(uint=>voteEvent) votemap;
-    // 选择中间人
+    // Choose a middleman
     function chooseIntermediary(address intermediaryAddress) public{
         committeeNumber storage _committeeNumber = committeemap[intermediaryAddress];
         _committeeNumber.intermediary_count++;
     }
-    // 获取指定人的f值
+    // Get the f-value of the specified person
     function getF(address addr) public returns(uint){
         committeeNumber storage _committeeNumber = committeemap[addr];
         _committeeNumber.f=_committeeNumber.vote_count/_committeeNumber.intermediary_count;
@@ -46,7 +46,7 @@ contract committee{
         committeeNumber storage _committeeNumber = committeemap[addr];
         return _committeeNumber.f;
     }
-    // 创建投票
+    // Create poll
     function createVote(uint _transactionId,uint _cash) public{
         voteAmount = _transactionId;
         voteEvent storage n = votemap[voteAmount];
@@ -56,7 +56,7 @@ contract committee{
         n.committeemanAmount = 0;
         n.cash=_cash;
     }
-    // 投票
+    // vote
     function vote(address payable _committeemanAddress, uint vote_res,uint _transactionId) public{
         voteEvent storage _voteEvent = votemap[_transactionId];
         committeeNumber storage _committeeNumber = committeemap[_committeemanAddress];
@@ -70,12 +70,12 @@ contract committee{
         _voteEvent.committeemanAmount++;
         _voteEvent.map[_voteEvent.committeemanAmount] = committeeman(_committeemanAddress,vote_res);
     }
-    // 返回投票结果
+    // Return voting results
     function getTrue(uint _transactionId) view public returns(uint){
         voteEvent storage _voteEvent = votemap[_transactionId];
         return _voteEvent.transactionId;
     }
-    // 获取投票结果，因为不能返回值，返回值用上面的函数
+    // Get the voting results, because you cannot return a value, use the above function to return the value
     function getVoteRes(uint _transactionId) public {
         voteEvent storage _voteEvent = votemap[_transactionId];
         if(_voteEvent.vote_true>_voteEvent.vote_false){
@@ -85,7 +85,7 @@ contract committee{
             _voteEvent.vote_res=0;
         }
     }
-    // 惩罚和分配金额
+    // Penalties and Distribution Amounts
     function punishment(uint _transactionId) public {
         uint amount;
         uint each;

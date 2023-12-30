@@ -23,7 +23,7 @@ def get_script_TXs(id_Alice: Id, id_Bob: Id, id_Ingrid: Id, timedelay: int) -> S
 def get_script_TXs(id_Alice: Id, id_Ingrid: Id) -> Script:
     return Script([
         id_Alice.pk.to_hex(), 'OP_CHECKSIGVERIFY', id_Ingrid.pk.to_hex(), 'OP_CHECKSIGVERIFY', 0x1])
-    # 先验证Alice的签名再验证Ingrid的签名，都正确之后可使用该输出。
+    # Verify Alice's signature first and then Ingrid's signature. After both are correct, you can use the output.
 
 
 def get_script_txa_v(id_a: Id, id_i: id, timedelay: int) -> Script:
@@ -49,7 +49,7 @@ def get_script_3sig(id_a: Id, id_b: Id, id_i: Id) -> Script:
 
 
 def get_script_2sig(id_1: Id, id_2: Id) -> Script:
-    # id_a.pk.to_hex()：以十六进制字符串形式返回 public key（SEC格式-默认压缩）
+    # id_a.pk.to_hex()：Returns the public key as a hexadecimal string (SEC format - default compression)
     script = Script([
         id_1.pk.to_hex(), 'OP_CHECKSIGVERIFY', id_2.pk.to_hex(), 'OP_CHECKSIGVERIFY', 0x1])  
     return script
@@ -86,7 +86,7 @@ def get_script_ln_ct(id_a: Id, id_b: Id, id_i: Id, id_punish_vc: Id, id_punish_c
         'OP_ENDIF', 0x1])   
 
 
-# 闪电网络 commitment transaction
+# lightning network commitment transaction
 def get_output_ln_ct(id_post: Id, id_punish: Id, rev_hash, timedelay: int) -> Script:
     """
     spend with either: 
@@ -102,7 +102,7 @@ def get_output_ln_ct(id_post: Id, id_punish: Id, rev_hash, timedelay: int) -> Sc
         'OP_ENDIF', 0x1])
 
 
-# 闪电网络下有时效性虚拟通道的commitment transaction脚本
+# Commitment transaction script for time-sensitive virtual channel under Lightning Network
 def get_script_ln_ct_val(id_l: Id, id_r: Id, id_punish_vc: id, id_punish_channel: id, rev_hash, timedelay1: int,
                          timedelay2: int) -> Script:
     """

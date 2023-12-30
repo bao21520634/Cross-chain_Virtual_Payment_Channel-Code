@@ -7,40 +7,40 @@ contract Greeter {
     uint _amount_a;
     uint _amount_b;
     bytes  _sign_b;
-    uint _time;//操作有效时间
-    uint a_time;//区块当前时间
+    uint _time;//Operation effective time
+    uint a_time;//Block current time
     uint public temperature;
     address account2_publickey;
     address account3_publickey;
     address payable account2;
     address payable account3;
-    uint time_cvc_validity; //虚拟通道有效时间
+    uint time_cvc_validity; //Virtual channel validity time
     uint time_cvc_expire;
     uint _number_nClose;
     uint _amount_a_nClose;
     uint _amount_b_nClose;
 
-        //  返回合约地址
+        //  Return contract address
          function getThis() view  public returns(address){
              return address(this);
          }
-        //  向合约地址转账
+        //  Transfer money to contract address
          function pay() payable public{          
         }
-        // 获取合约地址余额
+        // Get the contract address balance
         function getBalance() view public returns(uint){
             return address(this).balance;
         }
-        // 获取某个地址余额
+        // Get the balance of an address
         function getBalance1(address account) view public returns(uint){
             return account.balance;
         }
         function svalue(address payable addr,uint amount) public payable returns(address) {
-        //输入地址，给相应地址转账2 个以太币，这里是的单位是Gwei
+        //Enter the address and transfer 2 Ether coins to the corresponding address. The unit here is Gwei.
             addr.transfer(amount);
             return msg.sender;
         }
-        // 获取当前时间
+        // Get current time
         function get_time() view public returns(uint){
             return block.timestamp;
         }
@@ -59,22 +59,22 @@ contract Greeter {
             account2=_account2;
             account3=_account3;
         }
-        // a提交交易信息
+        // Submit transaction information a
         function submit_transaction_a(uint number,uint amount_a,uint amount_b,bytes32 hash,uint8 v,bytes32 r,bytes32 s,uint time) payable public returns(bool) {
             _number = number;
             _amount_a=amount_a;
             _amount_b=amount_b;
             _time=time;
             a_time=block.timestamp;
-            // 这里还有一步验签
+            // There is another step of verification here
             address sign_publicKey;
             sign_publicKey=decode(hash,v,r,s);
             require(sign_publicKey==account3_publickey);
             return true;
         }
-        // b提交交易信息
+        // Submit transaction information b
         function submit_transaction_b(uint number,uint amount_a,uint amount_b,bytes32 hash,uint8 v,bytes32 r,bytes32 s,address payable addr,address payable addr2) payable public returns(bool){
-            // 验签
+            // Verification
             address sign_publicKey;
             sign_publicKey=decode(hash,v,r,s);
             if(sign_publicKey==account2_publickey)
@@ -141,13 +141,13 @@ contract Greeter {
            return true;
         }
         
-        // 验签
-        //验签数据入口函数
+        // Verification
+        //Signature verification data entry function
         // bytes32 hash, bytes memory signedString
         function decode(bytes32 msgh,uint8 v,bytes32 r,bytes32 s) public pure returns(address){
             return ecrecover(msgh,v,r,s);
         }
-        //将原始数据按段切割出来指定长度
+        //Cut the original data into segments to specified lengths
        function slice(bytes memory data, uint start, uint len) pure public returns (bytes memory){
             bytes memory b = new bytes(len);
             for(uint i = 0; i < len; i++){
@@ -155,12 +155,12 @@ contract Greeter {
             }
             return b;
         }
-        //使用ecrecover恢复公匙
+        //Use ecrecover to recover the public key
         function ecrecoverDecode(bytes32 r, bytes32 s, bytes1 v1) pure public returns (address addr){
             uint8 v = uint8(v1) + 27;
             addr = ecrecover(hex"4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45", v, r, s);
         }
-        //bytes转换为bytes32
+        //Convert bytes to bytes32
         function bytesToBytes32(bytes memory source) pure public returns (bytes32 result) {
             assembly {
                 result := mload(add(source, 32))

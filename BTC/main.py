@@ -18,8 +18,8 @@ def main():
     tx_in_Alice = TxInput('f14fb1b38127f18dcb0d7dbf6745fb0cc28baf8de0b37373d3e1f131383ead47', 1)
     tx_in_Ingrid = TxInput('bacf8061fa33a2149d6320bb4a6900249bb23434f4cc4f68c1f8e699a3f90ba8', 0)
 
-    c = 9000 # 交易金额
-    fee = 300 # 上链费用
+    c = 9000 # Amount of the transaction
+    fee = 300 # Liquidation fee
 
     # funding transaction
     TXf_Alice_Ingrid_L = txs.get_TX_multisig(tx_in_Alice, tx_in_Ingrid, id_Alice, id_Ingrid, c - fee, fee)

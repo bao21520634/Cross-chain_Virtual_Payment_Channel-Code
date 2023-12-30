@@ -17,11 +17,11 @@ class Block:
     head = None
     body = []
     size = 0
-    commiteeAddr = ['0x2eCcc99c951538F3acc0a470c1833c430DC4C63F',
-                    '0x6Be3ebEe0e105C1c404599bd52a6a714dB767eB5',
-                    '0x1AbB05903dA93668B031b55Cc21146F0bBb7154d',
-                    '0xb88b29d5C82D9b9067e443934A19aDd2859602fA',
-                    '0x31772F29C6274F4b120FBc3534A15B0adD220E06']
+    commiteeAddr = ['0x430910932cEC29f3F3695eFc61A2fc9e5aFDDB2b',
+                    '0x82971f37E5BCB03cF13fd735658236420e7796D2',
+                    '0x6261A516C70fFF814344Bd4e8445B88A49bbcc4d',
+                    '0x1721db279341d960B90631389b54fB951f68DF82',
+                    '0xE4d8408d1448d86488D85738B118d1972d8cb867']
 
     def mine(self, preBlock, info, memSigs):
         count = 0
